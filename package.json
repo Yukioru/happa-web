@@ -6,10 +6,11 @@
     "start": "SET PORT=9000 && razzle start",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
-    "start:prod": "NODE_ENV=production node build/server.js"
+    "start:prod": "SET NODE_ENV=production && node build/server.js"
   },
   "dependencies": {
     "antd": "^3.6.4",
+    "axios": "^0.18.0",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
     "connect-mongo": "^2.0.1",

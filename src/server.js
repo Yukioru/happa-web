@@ -22,7 +22,6 @@ passportInit(app);
 authRoutes(app);
 
 app.get('/*', passport.authenticationMiddleware(), (req, res) => {
-    console.log(req.isAuthenticated(), req.user, req.session);
     const context = {};
     const markup = renderToString(
       <StaticRouter context={context} location={req.url}>

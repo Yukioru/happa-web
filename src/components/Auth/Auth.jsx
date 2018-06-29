@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Form, Icon, Input, Button } from 'antd';
+import Axios from 'axios';
 import './Auth.css';
 
 const FormItem = Form.Item;
@@ -39,11 +40,7 @@ class Auth extends React.PureComponent {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        const result = await fetch(`/api/auth/${this.state.type}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(values),
-        }).then(res => res.json());
+        const result = await Axios.post(`/api/auth/${this.state.type}`, values);
         console.log('result', result);
       }
     });

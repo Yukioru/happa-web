@@ -9,10 +9,7 @@ export default app => {
   });
   
   passport.deserializeUser((id, done) => {
-    console.log('deserializeUser');
-    
     User.findById(id, (err, user) => {
-      console.log('deserializeUser, findById');
       done(err, user);
     });
   });
@@ -34,7 +31,6 @@ export default app => {
       return done(error);
     }
   }));
-  console.log(authentication);
   
   passport.authenticationMiddleware = authentication;
 }
