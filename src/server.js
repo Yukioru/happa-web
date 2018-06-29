@@ -1,11 +1,13 @@
 import App from './components/App';
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
+import passport from 'passport';
 import express from 'express';
 import bodyParser from 'body-parser';
 import { renderToString } from 'react-dom/server';
 import authRoutes from './routes/auth';
 import connectDb from './db/connect';
+import passportInit from './db/passport';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 const app = express();
@@ -16,10 +18,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 connectDb(app);
-require('./db/passport');
+passportInit(app);
 authRoutes(app);
 
-app.get('/*', (req, res) => {
+app.get('/*', passport.authenticationMiddleware(), (req, res) => {
     console.log(req.isAuthenticated(), req.user, req.session);
     const context = {};
     const markup = renderToString(

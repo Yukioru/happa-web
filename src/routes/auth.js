@@ -8,6 +8,7 @@ export default app => {
       if (!user) return res.send(info);
       req.logIn(user, (err) => {
         if (err) return next(err);
+        console.log(req.user);
         res.send({
           ...info,
           data: user,

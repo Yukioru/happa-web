@@ -5,7 +5,6 @@ import connectMongo from 'connect-mongo';
 
 export default app => {
   mongoose.connect('mongodb://localhost:27017/happa-web');
-
   const db = mongoose.connection;
 
   db.on('error', console.error.bind(console, 'connection error:'));
