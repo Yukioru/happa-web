@@ -14,11 +14,13 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
   },
   displayName: {
     type: String,
     required: true,
+  },
+  passports: {
+    twitch: Object,
   },
   role: {
     type: String,
@@ -30,6 +32,7 @@ const userSchema = mongoose.Schema({
 
 userSchema.pre('save', function(next) {
   var user = this;
+  if (!user.password) return;
 
   // only hash the password if it has been modified (or is new)
   if (!user.isModified('password')) return next();
@@ -50,6 +53,7 @@ userSchema.pre('save', function(next) {
 });
 
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
+  if (!this.password) return;
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
       if (err) return cb(err);
       cb(null, isMatch);

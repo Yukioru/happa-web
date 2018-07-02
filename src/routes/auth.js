@@ -42,4 +42,15 @@ export default app => {
       }
     }
   });
+
+  app.get('/api/auth/twitch', passport.authenticate('twitch'));
+
+  app.get('/api/auth/twitch/callback', 
+    passport.authenticate('twitch', { failureRedirect: '/auin/signin' }),
+    function(req, res) {
+      // Successful authentication, redirect home.
+      res.redirect('/');
+    }
+  );
+
 };
