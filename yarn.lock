@@ -5215,6 +5215,17 @@ mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@
   dependencies:
     minimist "0.0.8"
 
+mobx-react@^5.2.3:
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-5.2.3.tgz#cdf6141c2fe63377c5813cbd254e8ce0d4676631"
+  dependencies:
+    hoist-non-react-statics "^2.5.0"
+    react-lifecycles-compat "^3.0.2"
+
+mobx@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.0.3.tgz#53b97f2a0f9b0dd7774c96249f81bf2d513d8e1c"
+
 moment@2.x, moment@^2.19.3:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
@@ -5782,9 +5793,9 @@ passport-strategy@1.x.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
 
-passport-twitch@^1.0.3:
+"passport-twitch@github:Erveon/passport-twitch":
   version "1.0.3"
-  resolved "https://registry.yarnpkg.com/passport-twitch/-/passport-twitch-1.0.3.tgz#82a4a1fbe19368d44e62f057e93c414a9d4fe7cc"
+  resolved "https://codeload.github.com/Erveon/passport-twitch/tar.gz/b85848d3ac2ae266e7f351aa5bd2b666dbf7eb52"
   dependencies:
     passport-oauth2 "^1.1.2"
     pkginfo "0.2.x"

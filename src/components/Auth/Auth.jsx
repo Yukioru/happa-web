@@ -102,10 +102,10 @@ class Auth extends React.PureComponent {
               }],
             })(
               <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Повтор пароля"
-              onBlur={this.handleConfirmBlur}
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                type="password"
+                placeholder="Повтор пароля"
+                onBlur={this.handleConfirmBlur}
               />
             )}
           </FormItem>
@@ -114,6 +114,10 @@ class Auth extends React.PureComponent {
           <Button type="primary" htmlType="submit" className="login-form-button">
             {type === 'signin' && 'Авторизоваться'}
             {type === 'signup' && 'Зарегистрироваться'}
+          </Button>
+
+          <Button type="primary" className="twitch-button" icon=" fab fa-twitch" href="/api/auth/twitch">
+            Войти через Twitch
           </Button>
           {type === 'signin' && (
             <React.Fragment>

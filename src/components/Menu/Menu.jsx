@@ -1,8 +1,10 @@
 import React from 'react';
+import { inject } from 'mobx-react';
 import { Menu as AntdMenu, Icon } from 'antd';
 import withRouter from 'react-router-dom/withRouter';
 import { getExistingKey } from '../App';
 
+@inject('app')
 @withRouter
 class Menu extends React.Component {
   constructor(props) {
@@ -21,22 +23,43 @@ class Menu extends React.Component {
     });
   }
 
-  handleClickedMenu({ key: selectedMenuKey }) {
+  handleClickedMenu({ key: selectedMenuKey, ...etc }) {
     const { history } = this.props;
     this.setState({ selectedMenuKey });
-    history.push(`/${selectedMenuKey}`);
+    if (selectedMenuKey === 'logout') {
+      document.location.replace(`/api/${selectedMenuKey}`);
+    } else {
+      history.push(`/${selectedMenuKey}`);
+    }
   }
 
   render() {
     const { selectedMenuKey } = this.state;
-    const { routeKeys } = this.props;
-    const menuArray = Object.keys(routeKeys)
-      .map(key => {
-        let icon = 'home';
-        if (key === 'schedule') icon = 'calendar';
-        if (key === 'alternative') icon = 'solution';
-        return { title: routeKeys[key], key, icon };
-      });
+    const { routeKeys, app } = this.props;
+    const authKeys = {
+      auth: 'Войти',
+      logout: 'Выйти',
+    };
+    const authArray = Object.keys(authKeys).map(key => {
+      let show = true;
+      let icon = 'home';
+      if (key === 'auth') {
+        show = !app.user.isAuth;
+        icon = 'login';
+      }
+      if (key === 'logout') {
+        show = app.user.isAuth;
+        icon = key;
+      }
+      return { title: authKeys[key], key, icon, show };
+    }).filter(e => e.show);
+
+    const menuArray = Object.keys(routeKeys).map(key => {
+      let icon = 'home';
+      if (key === 'schedule') icon = 'calendar';
+      if (key === 'alternative') icon = 'solution';
+      return { title: routeKeys[key], key, icon };
+    });
     return (
       <AntdMenu
         theme="dark"
@@ -44,12 +67,22 @@ class Menu extends React.Component {
         selectedKeys={[selectedMenuKey]}
         onClick={this.handleClickedMenu}
       >
-        {menuArray.map(item => (
-          <AntdMenu.Item key={item.key}>
-            <Icon type={item.icon} />
-            <span className="nav-text">{item.title}</span>
-          </AntdMenu.Item>
-        ))}
+        <AntdMenu.ItemGroup title="Авторизация">
+          {authArray.map(item => (
+            <AntdMenu.Item key={item.key}>
+              <Icon type={item.icon} />
+              <span className="nav-text">{item.title}</span>
+            </AntdMenu.Item>
+          ))}
+        </AntdMenu.ItemGroup>
+        <AntdMenu.ItemGroup title="Навигация">
+          {menuArray.map(item => (
+            <AntdMenu.Item key={item.key}>
+              <Icon type={item.icon} />
+              <span className="nav-text">{item.title}</span>
+            </AntdMenu.Item>
+          ))}
+        </AntdMenu.ItemGroup>
       </AntdMenu>
     );
   }

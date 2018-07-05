@@ -1,6 +1,9 @@
 import React from 'react';
 import Layout from 'antd/lib/layout';
 import Menu from '../Menu';
+import Logo from '../Logo';
+import SidebarUser from '../SidebarUser';
+import './Sidebar.css';
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -26,8 +29,11 @@ class Sidebar extends React.Component {
         collapsed={collapsed}
         onCollapse={this.handleCollapse}
       >
-        <div className="logo" />
-        <Menu routeKeys={routeKeys} />
+        <div style={{ position: 'sticky', top: 0, zIndex: 1 }}>
+          <Logo />
+          <SidebarUser />
+          <Menu routeKeys={routeKeys} />
+        </div>
       </Layout.Sider>
     );
   }

@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import Home from '../Home';
 import Auth from '../Auth';
 import Sidebar from '../Slidebar';
+import '../../styles/css/all.css';
 import './App.css';
 
 const { Header, Content, Footer } = Layout;
@@ -13,7 +14,6 @@ const menuKeys = {
   home: 'Главная',
   schedule: 'Расписание',
   alternative: 'Альтернативки',
-  auth: 'Авторизация',
 };
 
 const titleKeys = {

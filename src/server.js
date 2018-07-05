@@ -5,6 +5,8 @@ import passport from 'passport';
 import express from 'express';
 import bodyParser from 'body-parser';
 import { renderToString } from 'react-dom/server';
+import { Provider } from 'mobx-react';
+import AppStore from './stores/AppStore';
 import authRoutes from './routes/auth';
 import connectDb from './db/connect';
 import passportInit from './db/passport';
@@ -23,10 +25,15 @@ authRoutes(app);
 
 app.get('/*', passport.authenticationMiddleware(), (req, res) => {
     const context = {};
+    const app = new AppStore({
+      user: req.user || {},
+    });
     const markup = renderToString(
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
+      <Provider app={app}>
+        <StaticRouter context={context} location={req.url}>
+          <App />
+        </StaticRouter>
+      </Provider>
     );
 
     if (context.url) {
@@ -51,7 +58,7 @@ app.get('/*', passport.authenticationMiddleware(), (req, res) => {
             : `<script src="${assets.client.js}" defer crossorigin></script>`
         }
     </head>
-    <body>
+    <body data-user=${JSON.stringify(req.user || {})}>
         <div id="root">${markup}</div>
     </body>
 </html>`

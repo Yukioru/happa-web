@@ -3,7 +3,7 @@
   "version": "2.0.0-alpha.8",
   "license": "MIT",
   "scripts": {
-    "start": "PORT=9000 razzle start",
+    "start": "SET PORT=9000 && razzle start",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
@@ -16,10 +16,11 @@
     "connect-mongo": "^2.0.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "mobx": "^5.0.3",
+    "mobx-react": "^5.2.3",
     "mongoose": "^5.1.7",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "passport-twitch": "github:Erveon/passport-twitch",
     "passport-twitchtv": "^0.1.4",
     "razzle": "^2.2.0",
     "react": "^16.4.1",

@@ -9,10 +9,11 @@ export default app => {
       req.logIn(user, (err) => {
         if (err) return next(err);
         console.log(req.user);
-        res.send({
-          ...info,
-          data: user,
-        });
+        res.redirect('/');
+        // res.send({
+        //   ...info,
+        //   data: user,
+        // });
         next();
       });
     })(req, res, next);
@@ -36,22 +37,26 @@ export default app => {
         await new Promise(resp => {
           req.logIn(newUser, resp);
         });
-        res.send({ code: 200, data: newUser });
+        res.redirect('/');
+        // res.send({ code: 200, data: newUser });
       } catch (error) {
         throw new Error(error);
       }
     }
   });
 
-  app.get('/api/auth/twitch', passport.authenticate('twitch'));
+  app.get('/api/auth/twitch', passport.authenticate('twitchtv'));
 
   app.get('/api/auth/twitch/callback', 
-    passport.authenticate('twitch', { failureRedirect: '/auth/signin' }),
+    passport.authenticate('twitchtv', { failureRedirect: '/auth/signin' }),
     function(req, res) {
-      console.log('eba')
-      // Successful authentication, redirect home.
       res.redirect('/');
     }
   );
+
+  app.get('/api/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  })
 
 };
