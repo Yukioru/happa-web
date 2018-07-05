@@ -19,9 +19,6 @@
   margin-left: 20px;
   text-shadow: 0 0 12px;
   z-index: 1;
-
-  transition: text-shadow .03s ease-in-out, color .03s ease-in-out;
-  will-change: text-shadow, color;
 }
 
 .logo > i {
@@ -31,8 +28,6 @@
   font-size: 32px;
   color: #1890ff;
   
-  transition: text-shadow .03s ease-in-out, color .03s ease-in-out;
-  will-change: text-shadow, color;
   text-shadow: 0 0 30px #1890ff, 
               0 0 10px rgba(24, 144, 255, 0.41),
               0 0 100px #85add1,

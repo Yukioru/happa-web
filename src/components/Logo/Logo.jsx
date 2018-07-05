@@ -25,8 +25,9 @@ class Logo extends React.PureComponent {
       this.setState({
         counter,
         off: !off,
+      }, () => {
+        this.flicker();
       });
-      this.flicker();
     }, 40);
   }
   randomFromInterval(from, to) {
@@ -34,7 +35,7 @@ class Logo extends React.PureComponent {
   }
   loop = () => {
     let { flickerNumber } = this.state;
-    const rand = this.randomFromInterval(300, 800);
+    const rand = this.randomFromInterval(300, 5000);
     
     flickerNumber = this.randomFromInterval(0, 6);
     flickerNumber = this.flickers[flickerNumber];

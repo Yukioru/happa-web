@@ -1,9 +1,9 @@
 {
   "name": "happa-web",
-  "version": "2.0.0-alpha.8",
+  "version": "0.1.0-dev.1",
   "license": "MIT",
   "scripts": {
-    "start": "SET PORT=9000 && razzle start",
+    "start": "PORT=9000 razzle start",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "start:prod": "NODE_ENV=production node build/server.js"
