@@ -19,7 +19,7 @@
     "mongoose": "^5.1.7",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "passport-twitch": "^1.0.3",
+    "passport-twitch": "github:Erveon/passport-twitch",
     "passport-twitchtv": "^0.1.4",
     "razzle": "^2.2.0",
     "react": "^16.4.1",

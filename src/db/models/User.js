@@ -19,9 +19,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  passports: {
-    twitch: Object,
-  },
+  twitchId: String,
   role: {
     type: String,
     enum: ['user', 'admin'],
