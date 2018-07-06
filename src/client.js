@@ -1,21 +1,23 @@
-import App from './components/App';
-import BrowserRouter from 'react-router-dom/BrowserRouter';
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { Provider } from 'mobx-react';
+import { BrowserRouter } from 'react-router-dom';
+import App from './components/App';
 import AppStore from './stores/AppStore';
+import config from '../config';
 
 const app = new AppStore({
   user: JSON.parse(document.body.dataset.user),
+  config,
 });
 
 hydrate(
-  <Provider app={app}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('root')
+  <BrowserRouter>
+    <Provider app={app}>
+        <App />
+    </Provider>
+  </BrowserRouter>,
+  document.getElementById('app')
 );
 
 if (module.hot) {

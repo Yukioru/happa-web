@@ -3,10 +3,10 @@
   "version": "0.1.0-dev.1",
   "license": "MIT",
   "scripts": {
-    "start": "PORT=9000 razzle start",
+    "start": "SET PORT=9000 && razzle start",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
-    "start:prod": "NODE_ENV=production node build/server.js"
+    "start:prod": "SET NODE_ENV=production && node build/server.js"
   },
   "dependencies": {
     "antd": "^3.6.4",
@@ -25,6 +25,7 @@
     "razzle": "^2.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-parallax-mousemove": "^1.1.0",
     "react-router-dom": "^4.3.1"
   },
   "devDependencies": {

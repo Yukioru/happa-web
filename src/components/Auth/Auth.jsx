@@ -1,22 +1,27 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Form, Icon, Input, Button } from 'antd';
+import { Alert, Form, Icon, Input, Button } from 'antd';
+import { inject, observer } from 'mobx-react';
 import Axios from 'axios';
-import './Auth.css';
 
 const FormItem = Form.Item;
 
+@inject('app')
+@observer
 @withRouter
 @Form.create()
-class Auth extends React.PureComponent {
+class Auth extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       type: 'signin',
       confirmDirty: false,
-      code: null,
+      error: null,
+      authLoading: false,
     };
+    this.closeAlert = this.closeAlert.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAuthOnTwitch = this.handleAuthOnTwitch.bind(this);
     this.handleConfirmBlur = this.handleConfirmBlur.bind(this);
     this.compareToFirstPassword = this.compareToFirstPassword.bind(this);
   }
@@ -30,18 +35,38 @@ class Auth extends React.PureComponent {
   }
 
   getType() {
+    const { type: currentType } = this.state;
     const { match } = this.props;
     const [,, type] = match.path.split('/');
+    if (currentType === type) return;
     this.setState({ type });
   }
 
+  async handleAuthOnTwitch() {
+    const { app } = this.props;
+    const res = await app.api.authTwitch();
+    console.log(res);
+  }
+
   async handleSubmit(e) {
+    const { app, history } = this.props;
     e.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        const result = await Axios.post(`/api/auth/${this.state.type}`, values);
-        console.log('result', result);
+        await new Promise((resolve) => {
+          this.setState({ authLoading: true }, resolve);
+        });
+        const { data: result } = await Axios.post(`/api/auth/${this.state.type}`, values);
+        await new Promise((resolve) => {
+          this.setState({ authLoading: false }, resolve);
+        });
+        if (result.code === 200) {
+          this.setState({ error: null });
+          app.user.setUser(result.data);
+          history.push('/');
+        } else {
+          this.setState({ error: result.message });
+        }
       }
     });
   }
@@ -60,8 +85,12 @@ class Auth extends React.PureComponent {
     }
   }
 
+  closeAlert() {
+    this.setState({ error: null });
+  }
+
   render() {
-    const { type } = this.state;
+    const { type, authLoading, error } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
@@ -110,13 +139,35 @@ class Auth extends React.PureComponent {
             )}
           </FormItem>
         )}
+        {error && (
+          <FormItem>
+            <Alert
+              message={error}
+              type="error"
+              showIcon
+              closable
+              onClose={this.closeAlert}
+            />
+          </FormItem>
+        )}
         <FormItem>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+            loading={authLoading}
+          >
             {type === 'signin' && 'Авторизоваться'}
             {type === 'signup' && 'Зарегистрироваться'}
           </Button>
 
-          <Button type="primary" className="twitch-button" icon=" fab fa-twitch" href="/api/auth/twitch">
+          <Button
+            type="primary"
+            className="twitch-button"
+            icon=" fab fa-twitch"
+            // onClick={this.handleAuthOnTwitch}
+            href="/api/auth/twitch"
+          >
             Войти через Twitch
           </Button>
           {type === 'signin' && (

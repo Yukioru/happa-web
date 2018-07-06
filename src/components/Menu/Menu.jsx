@@ -1,6 +1,6 @@
 import React from 'react';
-import { inject } from 'mobx-react';
 import { Menu as AntdMenu, Icon } from 'antd';
+import { inject } from 'mobx-react';
 import withRouter from 'react-router-dom/withRouter';
 import { getExistingKey } from '../App';
 
@@ -23,19 +23,21 @@ class Menu extends React.Component {
     });
   }
 
-  handleClickedMenu({ key: selectedMenuKey, ...etc }) {
-    const { history } = this.props;
+  async handleClickedMenu({ key: selectedMenuKey, ...etc }) {
+    const { history, app } = this.props;
     this.setState({ selectedMenuKey });
     if (selectedMenuKey === 'logout') {
-      document.location.replace(`/api/${selectedMenuKey}`);
-    } else {
-      history.push(`/${selectedMenuKey}`);
+      await app.api.logOut();
+      app.user.clearUser();
+      history.push('/');
+      return;
     }
+    history.push(`/${selectedMenuKey}`);
   }
 
   render() {
     const { selectedMenuKey } = this.state;
-    const { routeKeys, app } = this.props;
+    const { routeKeys, isAuth } = this.props;
     const authKeys = {
       auth: 'Войти',
       logout: 'Выйти',
@@ -44,11 +46,11 @@ class Menu extends React.Component {
       let show = true;
       let icon = 'home';
       if (key === 'auth') {
-        show = !app.user.isAuth;
+        show = !isAuth;
         icon = 'login';
       }
       if (key === 'logout') {
-        show = app.user.isAuth;
+        show = isAuth;
         icon = key;
       }
       return { title: authKeys[key], key, icon, show };

@@ -23,6 +23,14 @@ class UserModel {
     });
   }
 
+  @action
+  clearUser() {
+    ['_id', 'username', 'displayName', 'avatar', 'role']
+      .forEach((key) => {
+        this[key] = null;
+      });
+  }
+
   @computed
   get isAuth() {
     return !!this._id;

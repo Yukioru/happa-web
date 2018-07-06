@@ -1,10 +1,12 @@
 import React from 'react';
-import Layout from 'antd/lib/layout';
+import { Layout, BackTop } from 'antd';
+import { inject, observer } from 'mobx-react';
 import Menu from '../Menu';
 import Logo from '../Logo';
 import SidebarUser from '../SidebarUser';
-import './Sidebar.css';
 
+@inject('app')
+@observer
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +23,7 @@ class Sidebar extends React.Component {
 
   render() {
     const { collapsed } = this.state;
-    const { routeKeys } = this.props;
+    const { routeKeys, app } = this.props;
     return (
       <Layout.Sider
         breakpoint="lg"
@@ -32,8 +34,9 @@ class Sidebar extends React.Component {
         <div style={{ position: 'sticky', top: 0, zIndex: 1 }}>
           <Logo />
           <SidebarUser />
-          <Menu routeKeys={routeKeys} />
+          <Menu routeKeys={routeKeys} isAuth={app.user.isAuth} />
         </div>
+        <BackTop />
       </Layout.Sider>
     );
   }

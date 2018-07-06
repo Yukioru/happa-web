@@ -1,0 +1,229 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-layout-sider-zero-width-trigger {
+  top: 12px;
+}
+
+.header-inner {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.header-right {
+  margin-left: auto;
+}
+
+
+.fa:before,
+.fab:before,
+.fal:before,
+.far:before,
+.fas:before {
+  font-family: inherit !important;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.login-form {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.twitch-button {
+  width: 100%;
+  background-color: #4b367c;
+  border-color: #4b367c;
+}
+.twitch-button:hover,
+.twitch-button:focus {
+  background-color: #7d5bbe;
+  border-color: #7d5bbe;
+}
+.twitch-button.ant-btn-clicked:after {
+  border-color: #7d5bbe;
+}
+
+.logo {
+  padding: 16px 16px 15px 38px;
+  position: relative;
+  white-space: nowrap;
+}
+
+.logo-text {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.logo-text > span {
+  font-size: 16px;
+  display: inline-block;
+  position: relative;
+  top: -3px;
+  margin-left: 20px;
+  text-shadow: 0 0 12px;
+  z-index: 1;
+}
+
+.logo > i {
+  position: absolute;
+  margin-top: -29px;
+  margin-left: 78px;
+  font-size: 32px;
+  color: #1890ff;
+  
+  text-shadow: 0 0 30px #1890ff, 
+              0 0 10px rgba(24, 144, 255, 0.41),
+              0 0 100px #85add1,
+              0 0 500px #1890ff,
+              4px 6px 5px rgba(0, 0, 0, 0.5);
+}
+
+.logo.off > i {
+  color: rgba(66, 66, 66, 0.61);
+  text-shadow: 4px 6px 5px rgba(34, 34, 34, 0.5);
+}
+
+.logo.off > .logo-text > span {
+  color: gray;
+  text-shadow: 0 0 2px;
+}
+
+.sideuser-wrapper {
+  width: 100%;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(24, 144, 255, 0.2);
+}
+
+.sideuser-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 0 0 3px #e6f7ff;
+  background-color: rgba(230, 247, 255, 0.15);
+}
+
+.sideuser-name {
+  text-align: center;
+  white-space: nowrap;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 16px 0 0;
+  color: white;
+}
+
+.content-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.ant-layout {
+  min-width: 320px;
+}
+
+.ant-layout-has-sider {
+  overflow: hidden;
+}
+
+.ant-back-top {
+  right: auto;
+  left: 75px;
+}
+
+.full-promo {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 2px;
+  background-color: rgba(0,0,0,0.05);
+}
+
+.full-promo-background {
+  width: calc(100% + 120px);
+  height: calc(100% + 120px);
+  background-size: cover;
+  background-position: center;
+  filter: blur(14px) brightness(0.8);
+  margin-left: -60px;
+  margin-top: -60px;
+}
+
+.full-promo-foreground {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: 34px 50px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.full-promo-heading {
+  color: #fff;
+  font-size: 32px;
+}
+
+.full-promo-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.full-promo-info {
+  font-weight: 500;
+}
+
+.full-promo-flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.full-promo-game {
+  font-size: 16px;
+  display: flex;
+  align-items: baseline;
+}
+
+.full-promo-game:not(:last-child) {
+  margin-right: 24px;
+}
+
+.full-promo-game > i {
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.full-promo-inner {
+  margin-top: -18px;
+}

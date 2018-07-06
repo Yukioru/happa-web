@@ -1,12 +1,12 @@
 import React from 'react';
 import { withRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
-import 'antd/dist/antd.css';
 import Home from '../Home';
 import Auth from '../Auth';
 import Sidebar from '../Slidebar';
+import '../../styles/css/antd.css';
 import '../../styles/css/all.css';
-import './App.css';
+import '../../styles/css/app.css';
 
 const { Header, Content, Footer } = Layout;
 
@@ -69,16 +69,20 @@ class App extends React.Component {
         <Sidebar routeKeys={menuKeys} />
         <Layout>
           <Header style={{ background: '#fff' }}>
-            <h2>{this.getTitle()}</h2>
+            <div className="header-inner">
+              <h2>{this.getTitle()}</h2>
+            </div>
           </Header>
-          <Content style={{ margin: '24px 16px 0' }}>
-            <Switch>
-              <Redirect from="/home" to="/" />
-              <Redirect exact from="/auth" to="/auth/signin" />
-              <Route exact path="/" component={Home} />
-              <Route path="/auth/signin" component={Auth} />
-              <Route path="/auth/signup" component={Auth} />
-            </Switch>
+          <Content>
+            <div className="content-inner">
+              <Switch>
+                <Redirect from="/home" to="/" />
+                <Redirect exact from="/auth" to="/auth/signin" />
+                <Route exact path="/" component={Home} />
+                <Route path="/auth/signin" component={Auth} />
+                <Route path="/auth/signup" component={Auth} />
+              </Switch>
+            </div>
           </Content>
           <Footer style={{ textAlign: 'right' }}>
             Happa ©2018 Created by Yukioru

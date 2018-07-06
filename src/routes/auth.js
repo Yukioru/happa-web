@@ -9,11 +9,10 @@ export default app => {
       req.logIn(user, (err) => {
         if (err) return next(err);
         console.log(req.user);
-        res.redirect('/');
-        // res.send({
-        //   ...info,
-        //   data: user,
-        // });
+        res.send({
+          ...info,
+          data: user,
+        });
         next();
       });
     })(req, res, next);
@@ -37,8 +36,7 @@ export default app => {
         await new Promise(resp => {
           req.logIn(newUser, resp);
         });
-        res.redirect('/');
-        // res.send({ code: 200, data: newUser });
+        res.send({ code: 200, data: newUser });
       } catch (error) {
         throw new Error(error);
       }
@@ -54,7 +52,7 @@ export default app => {
     }
   );
 
-  app.get('/api/logout', (req, res) => {
+  app.get('/api/auth/logout', (req, res) => {
     req.logout();
     res.redirect('/');
   })

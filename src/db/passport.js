@@ -38,7 +38,7 @@ export default app => {
       clientID: cfg.twitch.clientId,
       clientSecret: cfg.twitch.secretKey,
       callbackURL: cfg.twitch.callback,
-      scope: "user_read"
+      scope: 'user_read',
     }, async (accessToken, refreshToken, profile, done) => {
       try {
         const twitchUser = profile._json;

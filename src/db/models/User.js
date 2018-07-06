@@ -25,7 +25,10 @@ const userSchema = mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
-  avatar: String,
+  avatar: {
+    type: String,
+    default: '/no-avatar.jpg',
+  },
 });
 
 userSchema.pre('save', function(next) {

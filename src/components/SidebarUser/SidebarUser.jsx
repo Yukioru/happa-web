@@ -1,6 +1,5 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import './SidebarUser.css';
 
 @inject('app')
 @observer
