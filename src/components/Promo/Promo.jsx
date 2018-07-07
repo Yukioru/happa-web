@@ -103,7 +103,7 @@ class Promo extends React.Component {
         >
           <div
             className="full-promo-background"
-            style={{ backgroundImage: `url(${stream.channel.profile_banner})` }}
+            style={{ backgroundImage: `url(${stream.preview.medium})` }}
           />
         </ParallaxMousemove.Layer>
         <div className="full-promo-foreground">

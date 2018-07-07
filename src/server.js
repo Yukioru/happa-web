@@ -6,8 +6,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'mobx-react';
+import { LocaleProvider } from 'antd';
+import ru_RU from 'antd/lib/locale-provider/ru_RU';
+import 'moment/locale/ru';
 import AppStore from './stores/AppStore';
 import authRoutes from './routes/auth';
+import eventRoutes from './routes/events';
 import connectDb from './db/connect';
 import passportInit from './db/passport';
 import config from '../config';
@@ -23,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 connectDb(app);
 passportInit(app);
 authRoutes(app);
+eventRoutes(app);
 
 app.get('/*', passport.authenticationMiddleware(), (req, res) => {
     const context = {};
@@ -33,7 +38,9 @@ app.get('/*', passport.authenticationMiddleware(), (req, res) => {
     const markup = renderToString(
       <StaticRouter context={context} location={req.url}>
         <Provider app={app}>
+          <LocaleProvider locale={ru_RU}>
             <App />
+          </LocaleProvider>
         </Provider>
       </StaticRouter>
     );

@@ -12,6 +12,7 @@ export default app => {
     // we're connected!
     console.log('db connected');
     require('./models/User').default;
+    require('./models/Event').default;
   });
 
   const MongoStore = connectMongo(session);

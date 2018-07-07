@@ -1,4 +1,5 @@
 import axios from 'axios';
+import orderBy from 'lodash/orderBy';
 
 class ApiStore {
   constructor(prefix, cfg) {
@@ -23,6 +24,12 @@ class ApiStore {
   async authTwitch() {
     return await axios.get(`${this.prefix}auth/twitch`);
   }
+  
+  async createOrUpdateEvent(body) {
+    const { data } = await axios.post(`${this.prefix}event/update`, body);
+    console.log('createOrUpdateEvent', data);
+    return data;
+  }
 
   async getChannel() {
     const { data } = await axios.get('https://api.twitch.tv/kraken/channels/happasc2', {
@@ -38,6 +45,17 @@ class ApiStore {
     });
     console.log('getStream', stream);
     return stream;
+  }
+
+  async getTopClips() {
+    const { data: { clips } } = await axios.get('https://api.twitch.tv/kraken/clips/top?channel=happasc2', {
+      headers: {
+        'Client-ID': this.cfg.twitch.clientId,
+        'Accept': 'application/vnd.twitchtv.v5+json',
+      },
+    });
+    const sorted = orderBy(clips, ['views'], ['desc']);
+    return sorted;
   }
 }
 

@@ -1,3 +1,8 @@
+@import "./all.css";
+@import "./antd.css";
+@import "./slick.css";
+@import "./slick-theme.css";
+
 body {
   margin: 0;
   padding: 0;
@@ -162,6 +167,7 @@ body {
   position: relative;
   border-radius: 2px;
   background-color: rgba(0,0,0,0.05);
+  margin-bottom: 32px;
 }
 
 .full-promo-background {
@@ -226,4 +232,196 @@ body {
 
 .full-promo-inner {
   margin-top: -18px;
+}
+
+.frame {
+  margin-bottom: 32px;
+}
+
+.frame-title {
+  font-weight: 600;
+  font-size: 1.8em;
+  letter-spacing: 0.3px;
+}
+
+.frame-slider {
+  margin: -4px;
+}
+
+.frame-slider-item {
+  margin: 4px;
+}
+
+.frame-slider-item .ant-card-cover {
+  border-radius: 2px 2px 0 0;
+  overflow: hidden;
+}
+
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vertical-center-modal .ant-modal {
+  top: 0;
+}
+
+.twitch-embed .ant-modal-body {
+  padding: 0;
+}
+
+.twitch-embed .ant-modal-footer {
+  display: none;
+}
+
+.twitch-embed .embed-responsive {
+  border-radius: 0 0 4px 4px;
+  background: #000;
+}
+
+.embed-responsive {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.embed-responsive-16by9::before {
+  padding-top: 56.25%;
+}
+
+.embed-responsive::before {
+  display: block;
+  content: "";
+}
+
+.embed-responsive .embed-responsive-item,
+.embed-responsive embed,
+.embed-responsive iframe,
+.embed-responsive object,
+.embed-responsive video {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 1;
+}
+
+.embed-responsive-item.phantom-item {
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.events {
+  list-style: none;
+  padding: 32px 12px 12px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.events .ant-badge-status {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+.notes-month {
+  text-align: center;
+  font-size: 28px;
+}
+.notes-month section {
+  font-size: 28px;
+}
+
+.ant-fullcalendar-fullscreen .ant-fullcalendar-month,
+.ant-fullcalendar-fullscreen .ant-fullcalendar-date {
+  padding: 4px;
+  margin: 2px;
+}
+
+.simple-schedule .ant-fullcalendar-header .ant-radio-group {
+  display: none;
+}
+
+.event-shedule {
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.event-day {
+  background: #f0ffe9;
+}
+
+.event-evening {
+  background: #fff8e9;
+}
+
+.event-shedule:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+.event-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.event-simple .ant-modal-footer {
+  display: none;
+}
+
+.event-meta {
+  display: flex;
+  align-items: baseline;
+  margin-top: 8px;
+}
+
+.event-meta.alternative {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.event-meta-title {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+}
+
+.event-meta-value {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+.event-meta.alternative .event-meta-title,
+.event-meta.alternative .event-meta-value {
+  display: block;
+}
+
+.event-meta.alternative .event-meta-value {
+  margin-top: 6px;
+  white-space: pre-line;
+  margin-left: 0;
+}
+
+@media screen and (max-width: 992px) {
+  .ant-layout-sider {
+      z-index: 10;
+      position: fixed;
+      height: 100%;
+  }
 }

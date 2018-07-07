@@ -3,9 +3,8 @@ import { withRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
 import Home from '../Home';
 import Auth from '../Auth';
-import Sidebar from '../Slidebar';
-import '../../styles/css/antd.css';
-import '../../styles/css/all.css';
+import Sidebar from '../Sidebar';
+import Schedule from '../Schedule';
 import '../../styles/css/app.css';
 
 const { Header, Content, Footer } = Layout;
@@ -81,6 +80,7 @@ class App extends React.Component {
                 <Route exact path="/" component={Home} />
                 <Route path="/auth/signin" component={Auth} />
                 <Route path="/auth/signup" component={Auth} />
+                <Route path="/schedule" component={Schedule} />
               </Switch>
             </div>
           </Content>

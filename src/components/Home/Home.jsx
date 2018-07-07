@@ -1,12 +1,14 @@
 import React from 'react';
 import Promo from '../Promo';
+import TopClips from '../TopClips';
 
 class Home extends React.PureComponent {
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Promo />
-      </div>
+        <TopClips />
+      </React.Fragment>
     );
   }
 }
