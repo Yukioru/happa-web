@@ -1,5 +1,11 @@
 # Happa Web
 
-Какой-то недоделанный сайт
+В разработке.
 
-Документация будет пополняться
+Стек:
+- NodeJS;
+- React;
+- Mobx;
+- Express;
+- React router;
+- Razzle universal.
