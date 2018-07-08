@@ -8,8 +8,14 @@ class Logo extends React.PureComponent {
     counter: 0,
     off: false,
   }
+  timeoutFlicker = null;
+  timeoutLoop = null;
   componentDidMount() {
     this.loop();
+  }
+  componentWillUnmount() {
+    clearTimeout(this.timeoutFlicker);
+    clearTimeout(this.timeoutLoop);
   }
   flicker = () => {
     const { flickerNumber } = this.state;
@@ -20,7 +26,7 @@ class Logo extends React.PureComponent {
       return;
     }
   
-    setTimeout(() => {
+    this.timeoutFlicker = setTimeout(() => {
       this.setState({
         counter,
         off: !off,
@@ -39,15 +45,15 @@ class Logo extends React.PureComponent {
     flickerNumber = this.randomFromInterval(0, 6);
     flickerNumber = this.flickers[flickerNumber];
 
-      setTimeout(() => {
-        this.setState({
-          flickerNumber,
-          counter: 0,
-        }, () => {
-          this.flicker();
-          this.loop();
-        });
-      }, rand);
+    this.timeoutLoop = setTimeout(() => {
+      this.setState({
+        flickerNumber,
+        counter: 0,
+      }, () => {
+        this.flicker();
+        this.loop();
+      });
+    }, rand);
   }
   render() {
     const { off } = this.state;

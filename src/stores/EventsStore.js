@@ -1,11 +1,25 @@
 import { observable } from 'mobx';
+import EventModel from '../models/EventModel';
 
-class Events {
+class EventsStore {
   @observable list = [];
 
-  constructor(data) {
+  constructor(data, app) {
+    if (app) this.app = app;
+    if (data) this.setList(data);
+  }
+  
+  setList(data) {
+    this.list = data.map(i => new EventModel(i, this, this.app));
+  }
 
+  clearList() {
+    this.list = [];
+  }
+
+  deleteEvent(eventId) {
+    this.list = this.list.filter(event => event._id !== eventId);
   }
 }
 
-export default Events;
+export default EventsStore;

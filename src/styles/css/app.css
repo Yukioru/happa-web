@@ -418,6 +418,17 @@ body {
   margin-left: 0;
 }
 
+.event-footer {
+  margin: 16px -16px -16px;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 0 0 4px 4px;
+}
+
+.event-footer > button:not(:last-child) {
+  margin-right: 12px;
+}
+
 @media screen and (max-width: 992px) {
   .ant-layout-sider {
       z-index: 10;

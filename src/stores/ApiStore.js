@@ -27,7 +27,16 @@ class ApiStore {
   
   async createOrUpdateEvent(body) {
     const { data } = await axios.post(`${this.prefix}event/update`, body);
-    console.log('createOrUpdateEvent', data);
+    return data;
+  }
+
+  async getEventsList(body) {
+    const { data } = await axios.post(`${this.prefix}events`, body);
+    return data;
+  }
+
+  async deleteEvent(body) {
+    const { data } = await axios.post(`${this.prefix}event/delete`, body);
     return data;
   }
 
@@ -35,7 +44,6 @@ class ApiStore {
     const { data } = await axios.get('https://api.twitch.tv/kraken/channels/happasc2', {
       headers: {'Client-ID': this.cfg.twitch.clientId },
     });
-    console.log('getChannel', data);
     return data;
   }
 
@@ -43,7 +51,6 @@ class ApiStore {
     const { data: { stream } } = await axios.get('https://api.twitch.tv/kraken/streams/happasc2', {
       headers: {'Client-ID': this.cfg.twitch.clientId },
     });
-    console.log('getStream', stream);
     return stream;
   }
 
