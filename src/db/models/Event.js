@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
 
 const eventSchema = mongoose.Schema({
-  date: {
-    type: Date,
-    required: true,
-  },
+  date: Date,
   type: {
     type: String,
     enum: ['day', 'evening', 'dayoff'],

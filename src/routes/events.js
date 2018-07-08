@@ -15,11 +15,12 @@ export default app => {
       });
       return res.send({ code: 200, data: null });
     }
-    if (body.hasOwnProperty('title') && body.hasOwnProperty('date')) {
-      const newEvent = await Event.create({
-        title: body.title,
-        date: body.date,
-      });
+    if (body.hasOwnProperty('title')) {
+      const createData = { title: body.title };
+      if (body.date) {
+        createDatadate = body.date;
+      }
+      const newEvent = await Event.create(createData);
       return res.send({ code: 200, data: newEvent });
     }
   });
@@ -34,12 +35,17 @@ export default app => {
   app.post('/api/events', async (req, res) => {
     const { body } = req;
     if (!body) return res.send({ code: 404, data: null });
-    const list = await Event.find({
+    const query = req.query && req.query.noDate ? {
+      date: {
+        $exists: false
+      },
+    } : {
       date: {
         $gt: body[0],
         $lt: body[1],
       },
-    });
+    };
+    const list = await Event.find(query);
     return res.send({ code: 200, data: list });
   });
 };

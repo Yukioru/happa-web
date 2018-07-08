@@ -25,12 +25,15 @@ const titleKeys = {
   },
 };
 
-export function getExistingKey(location, keys) {
+export function getExistingKey(location, keys, plain) {
   let [, key, subKey] = location.pathname.split('/');
   if (typeof key === 'string' && key === '') {
     key = 'home';
   }
   if (Object.keys(keys).includes(key)) {
+    if (plain && (key === 'auth' || subKey === 'signin')) {
+      return { title: 'Авторизация', key: 'auth' };
+    }
     if (typeof keys[key] === 'object' && subKey) {
       const subKeys = keys[key];
       if (Object.keys(subKeys).includes(subKey)) {

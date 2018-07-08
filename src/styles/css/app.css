@@ -240,8 +240,12 @@ body {
 
 .frame-title {
   font-weight: 600;
-  font-size: 1.8em;
+  font-size: 1.5em;
   letter-spacing: 0.3px;
+}
+
+.frame-content {
+  position: relative;
 }
 
 .frame-slider {

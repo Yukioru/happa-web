@@ -30,8 +30,8 @@ class ApiStore {
     return data;
   }
 
-  async getEventsList(body) {
-    const { data } = await axios.post(`${this.prefix}events`, body);
+  async getEventsList(body, noDate) {
+    const { data } = await axios.post(`${this.prefix}events${noDate ? '?noDate=true' : ''}`, body);
     return data;
   }
 

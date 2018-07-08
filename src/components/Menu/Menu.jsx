@@ -19,7 +19,23 @@ class Menu extends React.Component {
   componentDidMount() {
     const { location, routeKeys } = this.props;
     this.setState({
-      selectedMenuKey: getExistingKey(location, routeKeys).key,
+      selectedMenuKey: getExistingKey(location, {
+        ...routeKeys,
+        auth: 'Авторизация',
+      }, true).key,
+    });
+  }
+
+  componentDidUpdate() {
+    const { location, routeKeys } = this.props;
+    const { selectedMenuKey } = this.state;
+    const key = getExistingKey(location, {
+      ...routeKeys,
+      auth: 'Авторизация',
+    }, true).key;
+    if (selectedMenuKey === key) return;
+    this.setState({
+      selectedMenuKey: key,
     });
   }
 
@@ -29,7 +45,7 @@ class Menu extends React.Component {
     if (selectedMenuKey === 'logout') {
       await app.api.logOut();
       app.user.clearUser();
-      history.push('/');
+      history.push('/home');
       return;
     }
     history.push(`/${selectedMenuKey}`);

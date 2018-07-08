@@ -7,7 +7,9 @@ import {
   Form,
   Input,
   TimePicker,
+  DatePicker,
   Radio,
+  List,
 } from 'antd';
 import moment from 'moment';
 import cx from 'classnames';
@@ -26,6 +28,7 @@ class Schedule extends React.Component {
     this.state = {
       openModal: false,
       modalState: 'view',
+      noDateModal: false,
       modalDate: moment(),
       modalData: [],
       creatingId: null,
@@ -38,88 +41,6 @@ class Schedule extends React.Component {
     this.handlePanelChange = this.handlePanelChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.renderViewBody = this.renderViewBody.bind(this);
-
-    const formOptions = {
-      onValuesChange(props, values) {
-        props.onChange({
-          ...values,
-          date: props.date,
-        });
-      },
-    };
-    if (this.state.modalState === 'edit') {
-      formOptions.mapPropsToFields = function mapPropsToFields(props) {
-        if (props.fields) {
-          const obj = {
-            title: Form.createFormField({
-              value: props.fields.title,
-            }),
-            type: Form.createFormField({
-              value: props.fields.type,
-            }),
-          };
-          if (props.fields.startTime) {
-            obj.startTime = Form.createFormField({
-              value: moment(props.fields.startTime),
-            });
-          }
-          if (props.fields.finishTime) {
-            obj.finishTime = Form.createFormField({
-              value: moment(props.fields.finishTime),
-            });
-          }
-          if (props.fields.description) {
-            obj.description = Form.createFormField({
-              value: props.fields.description,
-            });
-          }
-          return obj;
-        }
-      };
-    }
-    this.form = Form.create(formOptions)((props) => {
-      const { getFieldDecorator } = props.form;
-      const formItemLayout = {
-        labelCol: {
-          xs: { span: 24 },
-          sm: { span: 8 },
-        },
-        wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
-        },
-      };
-      return (
-        <Form>
-          <FormItem {...formItemLayout} label="Название">
-            {getFieldDecorator('title', {
-              rules: [{ required: true, message: 'Название обязательно!' }],
-            })(<Input type="text" />)}
-          </FormItem>
-          <FormItem {...formItemLayout} label="Тип трансляции">
-            {getFieldDecorator('type', {
-              rules: [{ required: true, message: 'Тип трансляции обязателен!' }],
-            })(
-              <Radio.Group>
-                <Radio.Button value="day">День</Radio.Button>
-                <Radio.Button value="evening">Вечер</Radio.Button>
-                <Radio.Button value="dayoff">Выходной</Radio.Button>
-              </Radio.Group>
-            )}
-          </FormItem>
-    
-          <FormItem {...formItemLayout} label="Время начала">
-            {getFieldDecorator('startTime')(<TimePicker placeholder="Время" format="HH:mm" style={{ width: 110 }} />)}
-          </FormItem>
-          <FormItem {...formItemLayout} label="Время окончания">
-            {getFieldDecorator('finishTime')(<TimePicker placeholder="Время" format="HH:mm" style={{ width: 110 }} />)}
-          </FormItem>
-          <FormItem {...formItemLayout} label="Описание">
-            {getFieldDecorator('description')(<Input.TextArea placeholder="Введите описание трансляции (необязательно)" autosize={{ minRows: 4 }} />)}
-          </FormItem>
-        </Form>
-      );
-    });
   }
   componentDidMount() {
     this.getData();
@@ -135,17 +56,20 @@ class Schedule extends React.Component {
       moment(modalDate).add(1, 'months').endOf('month').toISOString(),
     ];
     const res = await app.api.getEventsList(monthRange);
+    const resNoDate = await app.api.getEventsList(monthRange, true);
     this.store.setList(res.data);
+    this.store.setList(resNoDate.data, true);
   }
   @Debounce(300)
   async handleFormChange(data) {
-    const { creatingId } = this.state;
+    const { creatingId, noDateModal } = this.state;
     const { app } = this.props;
     const preparedData = {
       ...data,
-      date: data.date.toISOString(),
     };
+    if (!noDateModal) preparedData.date = data.date.toISOString();
     if (creatingId) preparedData._id = creatingId;
+    if (noDateModal && preparedData.date) preparedData.date = preparedData.date.toISOString();
     if (preparedData.startTime) preparedData.startTime = preparedData.startTime.toISOString();
     if (preparedData.finishTime) preparedData.finishTime = preparedData.finishTime.toISOString();
     if (typeof preparedData.title === 'string' && !preparedData.title) return;
@@ -164,8 +88,105 @@ class Schedule extends React.Component {
       modalDate,
       modalState,
       creatingId,
+      noDateModal,
       modalEditData,
     } = this.state;
+
+    if (!this.form) {
+      const formOptions = {
+        onValuesChange(props, values) {
+          const data = {
+            ...values,
+          };
+          if (!props.noDateModal) {
+            data.date = props.date;
+          }
+          props.onChange(data);
+        },
+      };
+      if (this.state.modalState === 'edit') {
+        formOptions.mapPropsToFields = function mapPropsToFields(props) {
+          if (props.fields) {
+            const obj = {
+              title: Form.createFormField({
+                value: props.fields.title,
+              }),
+              type: Form.createFormField({
+                value: props.fields.type,
+              }),
+            };
+            if (props.fields.startTime) {
+              obj.startTime = Form.createFormField({
+                value: moment(props.fields.startTime),
+              });
+            }
+            if (props.fields.finishTime) {
+              obj.finishTime = Form.createFormField({
+                value: moment(props.fields.finishTime),
+              });
+            }
+            if (props.fields.description) {
+              obj.description = Form.createFormField({
+                value: props.fields.description,
+              });
+            }
+            if (noDateModal && props.fields.date) {
+              obj.date = Form.createFormField({
+                value: props.fields.date,
+              });
+            }
+            return obj;
+          }
+        };
+      }
+      this.form = Form.create(formOptions)((props) => {
+        const { getFieldDecorator } = props.form;
+        const formItemLayout = {
+          labelCol: {
+            xs: { span: 24 },
+            sm: { span: 8 },
+          },
+          wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 16 },
+          },
+        };
+        return (
+          <Form>
+            <FormItem {...formItemLayout} label="Название">
+              {getFieldDecorator('title', {
+                rules: [{ required: true, message: 'Название обязательно!' }],
+              })(<Input type="text" />)}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Тип трансляции">
+              {getFieldDecorator('type', {
+                rules: [{ required: true, message: 'Тип трансляции обязателен!' }],
+              })(
+                <Radio.Group>
+                  <Radio.Button value="day">День</Radio.Button>
+                  <Radio.Button value="evening">Вечер</Radio.Button>
+                  <Radio.Button value="dayoff">Выходной</Radio.Button>
+                </Radio.Group>
+              )}
+            </FormItem>
+            {props.noDateModal && (
+              <FormItem {...formItemLayout} label="Дата">
+                {getFieldDecorator('date')(<DatePicker placeholder="Дата" style={{ width: 170 }} />)}
+              </FormItem>
+            )}
+            <FormItem {...formItemLayout} label="Время начала">
+              {getFieldDecorator('startTime')(<TimePicker placeholder="Время" format="HH:mm" style={{ width: 110 }} />)}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Время окончания">
+              {getFieldDecorator('finishTime')(<TimePicker placeholder="Время" format="HH:mm" style={{ width: 110 }} />)}
+            </FormItem>
+            <FormItem {...formItemLayout} label="Описание">
+              {getFieldDecorator('description')(<Input.TextArea placeholder="Введите описание трансляции (необязательно)" autosize={{ minRows: 4 }} />)}
+            </FormItem>
+          </Form>
+        );
+      });
+    }
     let CustomForm = <React.Fragment />;
     let dayData = [];
     let eveningData = [];
@@ -192,7 +213,7 @@ class Schedule extends React.Component {
     }
     return (
       <Modal
-        title={`${modalState === 'create' ? 'Создание эвента в ' : ''}${modalDate.format('LL')}`}
+        title={`${modalState === 'create' ? 'Создание эвента в ' : ''}${noDateModal ? 'запланировно' : modalDate.format('LL')}`}
         wrapClassName={cx({
           'vertical-center-modal': true,
           'event-simple': !app.user.isAdmin || ['create', 'edit'].includes(modalState),
@@ -202,11 +223,13 @@ class Schedule extends React.Component {
           if (creatingId) this.getData();
           this.setState({ openModal: false }, () => {
             setTimeout(() => {
+              this.form = null;
               this.setState({
                 modalData: [],
                 modalState: 'view',
                 creatingId: null,
                 modalEditData: null,
+                noDateModal: false,
               });
             }, 300);
           });
@@ -227,14 +250,16 @@ class Schedule extends React.Component {
       >
         {modalState === 'create' && (
           <CustomForm
-            date={modalDate}
+            noDateModal={noDateModal}
+            date={!noDateModal && modalDate}
             onChange={this.handleFormChange}
           />
         )}
         {modalState === 'edit' && (
           <CustomForm
+            noDateModal={noDateModal}
             fields={modalEditData}
-            date={modalDate}
+            date={!noDateModal && modalDate}
             onChange={this.handleFormChange}
           />
         )}
@@ -302,6 +327,7 @@ class Schedule extends React.Component {
               type="dashed"
               icon="edit"
               onClick={() => {
+                this.form = null;
                 this.setState({
                   modalState: 'edit',
                   creatingId: event._id,
@@ -361,9 +387,57 @@ class Schedule extends React.Component {
     }
   }
   render() {
+    const { app } = this.props;
     return (
       <React.Fragment>
-        <h1>Расписание стримчанов Хаппитана</h1>
+        <h1 className="frame-title">Запланировано, но ещё нет в расписании</h1>
+        <div className="frame-content">
+          <List
+            bordered
+            style={{
+              background: '#fff',
+              marginBottom: 32,
+            }}
+            dataSource={this.store.noDateList}
+            renderItem={event => (
+              <List.Item
+                style={app.user.isAdmin ? {
+                  cursor: 'pointer',
+                } : {}}
+                onClick={app.user.isAdmin ? () => {
+                  this.form = null;
+                  this.setState({
+                    openModal: true,
+                    noDateModal: true,
+                    modalState: 'edit',
+                    creatingId: event._id,
+                    modalEditData: event,
+                  })
+                } : null}
+              >
+                {event.title}
+              </List.Item>
+            )}
+          />
+        </div>
+        <h1 className="frame-title">
+          Расписание стримчанов Хаппитана
+          {app.user.isAdmin && (
+            <Button
+              style={{ marginLeft: 12 }}
+              onClick={() => {
+                this.form = null;
+                this.setState({
+                  openModal: true,
+                  modalState: 'create',
+                  noDateModal: true,
+                })
+              }}
+            >
+              Создать эвент
+            </Button>
+          )}
+        </h1>
         {this.renderModal()}
         <div style={{ overflow: 'auto' }}>
           <Card bodyStyle={{ padding: 0 }} style={{ minWidth: 790 }}>

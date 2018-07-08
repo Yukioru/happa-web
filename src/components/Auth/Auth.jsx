@@ -21,7 +21,6 @@ class Auth extends React.Component {
     };
     this.closeAlert = this.closeAlert.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleAuthOnTwitch = this.handleAuthOnTwitch.bind(this);
     this.handleConfirmBlur = this.handleConfirmBlur.bind(this);
     this.compareToFirstPassword = this.compareToFirstPassword.bind(this);
   }
@@ -40,12 +39,6 @@ class Auth extends React.Component {
     const [,, type] = match.path.split('/');
     if (currentType === type) return;
     this.setState({ type });
-  }
-
-  async handleAuthOnTwitch() {
-    const { app } = this.props;
-    const res = await app.api.authTwitch();
-    console.log(res);
   }
 
   async handleSubmit(e) {
@@ -165,7 +158,6 @@ class Auth extends React.Component {
             type="primary"
             className="twitch-button"
             icon=" fab fa-twitch"
-            // onClick={this.handleAuthOnTwitch}
             href="/api/auth/twitch"
           >
             Войти через Twitch
